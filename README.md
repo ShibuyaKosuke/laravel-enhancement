@@ -13,7 +13,9 @@ cd laravel-enhancement
 rm -rf .git
 ```
 
-laravel-enhancement という名前でGithub にリポジトリを作成する。
+Github にアクセスして、laravel-enhancement という名前で Github にリポジトリを作成する。
+
+ローカルの環境で以下のコマンドを実行し、Github にリポジトリをプッシュする。
 
 ```bash
 cd laravel-enhancement
