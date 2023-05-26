@@ -1,10 +1,29 @@
-# laravel-practis
+# laravel-enhancement
 
-目次
+ファイルをローカルにコピーする
 
-- [01-laravel-setup.md](documents%2F01-laravel-setup.md)
-- [02-set-development-tools.md](documents%2F02-set-development-tools.md)
-- [03-install-breeze.md](documents%2F03-install-breeze.md)
-- [04-add-models.md](documents%2F04-add-models.md)
-- [05-add-factories.md](documents%2F05-add-factories.md)
-- [06-mod-controllers.md](documents%2F06-mod-controllers.md)
+```bash
+git clone git@github.com:ShibuyaKosuke/laravel-enhancement.git
+```
+
+Git の履歴を削除する
+
+```bash
+cd laravel-enhancement
+rm -rf .git
+```
+
+laravel-enhancement という名前でGithub にリポジトリを作成する。
+
+```bash
+cd laravel-enhancement
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin
+```
+
+Github Action の設定
+
+Settings > Actions > General > 「Workflow permissions」で「Read and write permissions」を選択する。
