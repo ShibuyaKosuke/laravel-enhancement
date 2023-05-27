@@ -19,16 +19,8 @@ class UserController extends Controller
     {
         $users = User::query()
             ->with(['company', 'sections'])
-            // @todo Scope に移動予定
-            ->when($request->company_id, function ($query, $company_id) {
-                return $query->where('company_id', $company_id);
-            })
-            // @todo Scope に移動予定
-            ->when($request->section_id, function ($query, $section_id) {
-                return $query->whereHas('sections', function ($query) use ($section_id) {
-                    $query->where('sections.id', $section_id);
-                });
-            })
+            ->whereCompany($request)
+            ->whereSection($request)
             ->paginate()
             ->withQueryString();
 
