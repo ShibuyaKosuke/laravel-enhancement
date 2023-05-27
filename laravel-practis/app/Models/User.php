@@ -15,6 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @property int $id ID
  * @property int $company_id 会社ID
+ * @property int $is_admin 管理者フラグ
  * @property string $name 氏名
  * @property string $email メールアドレス
  * @property \Illuminate\Support\Carbon|null $email_verified_at メール認証日時
@@ -39,6 +40,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
