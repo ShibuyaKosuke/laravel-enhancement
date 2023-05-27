@@ -6,9 +6,13 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-let sectionSelect = document.getElementById('company_id');
-sectionSelect.addEventListener('change', function () {
+let companySelect = document.getElementById('company_id');
+companySelect.addEventListener('change', function () {
     let company_id = this.value;
+
+    if (!company_id) {
+        return;
+    }
 
     axios.get(`/api/companies/${company_id}/sections/`).then((response) => {
         let sections = response.data;
@@ -32,4 +36,4 @@ sectionSelect.addEventListener('change', function () {
     });
 });
 
-sectionSelect.dispatchEvent(new Event('change'));
+companySelect.dispatchEvent(new Event('change'));
