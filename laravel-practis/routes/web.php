@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('companies', \App\Http\Controllers\CompanyController::class);
     Route::resource('companies.sections', \App\Http\Controllers\SectionController::class);
     Route::resource('sections.users', \App\Http\Controllers\SectionUserController::class)->only(['store', 'destroy']);
+
+    Route::get('/api/companies/{company}/sections', \App\Http\Controllers\AjaxSectionController::class)->name('api.sections.index');
 });
 
 require __DIR__.'/auth.php';
