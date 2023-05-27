@@ -7,6 +7,13 @@ use App\Models\User;
 
 class CompanyPolicy
 {
+    public function before(User $user, $ability)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -20,7 +27,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return true;
+        return $user->company_id === $company->id;
     }
 
     /**
@@ -28,7 +35,7 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->is_admin;
     }
 
     /**

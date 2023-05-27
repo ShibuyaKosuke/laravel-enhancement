@@ -38,7 +38,6 @@ class SectionUserControllerTest extends TestCase
         $response->assertStatus(302);
     }
 
-
     public function test_destroy()
     {
         $this->section->users()->attach($this->user->id);

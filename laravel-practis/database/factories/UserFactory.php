@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'company_id' => function () {
                 return Company::query()->inRandomOrder()->first()->id;
             },
+            'is_admin' => false,
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
@@ -45,6 +46,8 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'Kosuke Shibuya',
             'email' => 'admin@example.com',
+            'company_id' => 1,
+            'is_admin' => true,
         ]);
     }
 }
