@@ -47,5 +47,17 @@ class UserControllerTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('users.index', ['company_id' => 1, 'section_id' => 2]));
 
         $response->assertStatus(200);
+
+        $response = $this->actingAs($this->admin)->get(route('users.index'));
+
+        $response->assertStatus(200);
+
+        $response = $this->actingAs($this->admin)->get(route('users.index', ['company_id' => 1]));
+
+        $response->assertStatus(200);
+
+        $response = $this->actingAs($this->admin)->get(route('users.index', ['company_id' => 1, 'section_id' => 2]));
+
+        $response->assertStatus(200);
     }
 }
