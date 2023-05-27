@@ -8,8 +8,8 @@
     {{ Form::open(['route' => 'users.index', 'method' => 'get']) }}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{ Form::select('company_id', $companies, request('company_id'), ['placeholder' => '会社を選択']) }}
-            {{ Form::select('section_id', [], null, ['placeholder' => '部署を選択', 'data-default' => request('section_id')]) }}
+            {{ Form::select('company_id', $companies, request('company_id'), ['id' => 'company_id', 'placeholder' => '会社を選択']) }}
+            {{ Form::select('section_id', [], null, ['id' => 'section_id', 'placeholder' => '部署を選択', 'data-default' => request('section_id')]) }}
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             {{ Form::submit('検索') }}
