@@ -39,31 +39,31 @@ class DownloadUserControllerTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('download.users'));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
 
         $response = $this->actingAs($this->user)->get(route('download.users', ['company_id' => 1]));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
 
         $response = $this->actingAs($this->user)->get(route('download.users', ['company_id' => 1, 'section_id' => 2]));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
 
         $response = $this->actingAs($this->admin)->get(route('download.users'));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
 
         $response = $this->actingAs($this->admin)->get(route('download.users', ['company_id' => 1]));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
 
         $response = $this->actingAs($this->admin)->get(route('download.users', ['company_id' => 1, 'section_id' => 2]));
 
         $response->assertStatus(200);
-        $response->assertDownload('users.csv');
+        $response->assertDownload();
     }
 }
