@@ -45,8 +45,6 @@ class DownloadUserController extends Controller
 
     /**
      * @return bool|resource
-     *
-     * @codeCoverageIgnore
      */
     private function createCsv(Collection $users)
     {
