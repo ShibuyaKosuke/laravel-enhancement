@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class SectionUserControllerTest extends TestCase
+class AjaxSectionControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -27,23 +27,25 @@ class SectionUserControllerTest extends TestCase
         $this->user = User::factory([
             'company_id' => $this->company->id,
         ])->create();
+
+        $this->admin = User::factory([
+            'company_id' => $this->company->id,
+            'is_admin' => true,
+        ])->create();
     }
 
-    public function test_store()
+    public function test_index()
     {
-        $response = $this->actingAs($this->user)->post(route('sections.users.store', ['company' => $this->company, 'section' => $this->section]), [
-            'user_id' => $this->user->id,
-        ]);
+        $url = route('api.sections.index', ['company' => $this->company]);
 
-        $response->assertStatus(302);
-    }
+        $response = $this->actingAs($this->user)->get($url);
 
-    public function test_destroy()
-    {
-        $this->section->users()->attach($this->user->id);
+        $response->assertStatus(200);
+        $response->assertJson([$this->section->toArray()]);
 
-        $response = $this->actingAs($this->user)->delete(route('sections.users.destroy', ['company' => $this->company, 'section' => $this->section, 'user' => $this->user]));
+        $response = $this->actingAs($this->admin)->get($url);
 
-        $response->assertStatus(302);
+        $response->assertStatus(200);
+        $response->assertJson([$this->section->toArray()]);
     }
 }

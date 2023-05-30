@@ -21,6 +21,11 @@ class CompanyControllerTest extends TestCase
         $this->user = User::factory([
             'company_id' => $this->company->id,
         ])->create();
+
+        $this->admin = User::factory([
+            'company_id' => $this->company->id,
+            'is_admin' => true,
+        ])->create();
     }
 
     public function test_index()
@@ -45,6 +50,11 @@ class CompanyControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->get($url);
 
+        $response->assertStatus(403);
+
+        $response = $this->actingAs($this->admin)
+            ->get($url);
+
         $response->assertStatus(200);
     }
 
@@ -64,6 +74,13 @@ class CompanyControllerTest extends TestCase
                 'name' => $company_name,
             ]);
 
+        $response->assertStatus(403);
+
+        $response = $this->actingAs($this->admin)
+            ->post($url, [
+                'name' => $company_name,
+            ]);
+
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('companies', [
@@ -74,7 +91,7 @@ class CompanyControllerTest extends TestCase
         $this->assertEquals($company->id, $this->company->id);
 
         // バリデーション
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->admin)
             ->post($url, [
                 'name' => null,
             ]);

@@ -21,6 +21,11 @@ class SectionControllerTest extends TestCase
         $this->user = User::factory([
             'company_id' => $this->company->id,
         ])->create();
+
+        $this->admin = User::factory([
+            'company_id' => $this->company->id,
+            'is_admin' => true,
+        ])->create();
     }
 
     /**
@@ -43,6 +48,10 @@ class SectionControllerTest extends TestCase
     public function test_create(): void
     {
         $response = $this->actingAs($this->user)->get(route('companies.sections.create', ['company' => $this->company]));
+
+        $response->assertStatus(200);
+
+        $response = $this->actingAs($this->admin)->get(route('companies.sections.create', ['company' => $this->company]));
 
         $response->assertStatus(200);
     }

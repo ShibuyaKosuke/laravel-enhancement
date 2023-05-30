@@ -3,10 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -15,6 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @property int $id ID
  * @property int $company_id 会社ID
+ * @property int $is_admin 管理者フラグ
  * @property string $name 氏名
  * @property string $email メールアドレス
  * @property \Illuminate\Support\Carbon|null $email_verified_at メール認証日時
@@ -31,18 +34,21 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $tokens_count
  *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereCompany(\Illuminate\Http\Request $request)
+ * @method static Builder|User whereCompanyId($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereIsAdmin($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereSection(\Illuminate\Http\Request $request)
+ * @method static Builder|User whereUpdatedAt($value)
  *
  * @mixin \Eloquent
  */
@@ -79,6 +85,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return mixed
+     */
+    public function scopeWhereCompany(Builder $builder, Request $request)
+    {
+        return $builder->when($request->company_id, function ($query, $company_id) {
+            return $query->where('company_id', $company_id);
+        });
+    }
+
+    /**
+     * @return Builder|\Illuminate\Support\HigherOrderWhenProxy
+     */
+    public function scopeWhereSection(Builder $builder, Request $request)
+    {
+        return $builder->when($request->section_id, function ($query, $section_id) {
+            return $query->whereHas('sections', function ($query) use ($section_id) {
+                $query->where('sections.id', $section_id);
+            });
+        });
+    }
 
     public function company(): BelongsTo
     {
