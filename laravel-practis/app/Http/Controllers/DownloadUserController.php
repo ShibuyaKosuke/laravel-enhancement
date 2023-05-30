@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CsvExportHistory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DownloadUserController extends Controller
 {
@@ -14,7 +16,7 @@ class DownloadUserController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function __invoke(Request $request)
     {
@@ -25,17 +27,20 @@ class DownloadUserController extends Controller
             ->orderBy('id')
             ->get();
 
-        $callback = function () use ($users) {
-            // @codeCoverageIgnoreStart
-            $stream = $this->createCsv($users);
+        $file_name = sprintf('users-%s.csv', now()->format('YmdHis'));
 
-            echo stream_get_contents($this->createCsv($users));
+        $stream = $this->createCsv($users);
 
-            fclose($stream);
-            // @codeCoverageIgnoreEnd
-        };
+        Storage::put($file_name, $stream);
 
-        return response()->streamDownload($callback, 'users.csv');
+        CsvExportHistory::create([
+            'file_name' => $file_name,
+            'file_path' => Storage::path($file_name),
+            'exported_by' => $request->user()->id,
+            'exported_at' => now(),
+        ]);
+
+        return Storage::download($file_name);
     }
 
     /**
