@@ -15,4 +15,9 @@ class CsvExportHistory extends Model
         'exported_by',
         'exported_at',
     ];
+
+    public function exportedBy()
+    {
+        return $this->belongsTo(User::class, 'exported_by');
+    }
 }

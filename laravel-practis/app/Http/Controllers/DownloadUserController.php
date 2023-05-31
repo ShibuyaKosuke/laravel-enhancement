@@ -35,7 +35,7 @@ class DownloadUserController extends Controller
 
         CsvExportHistory::create([
             'file_name' => $file_name,
-            'file_path' => Storage::path($file_name),
+            'file_path' => $file_name,
             'exported_by' => $request->user()->id,
             'exported_at' => now(),
         ]);
