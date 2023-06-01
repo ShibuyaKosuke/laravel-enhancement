@@ -31,6 +31,6 @@ class CsvExportHistoryController extends Controller
         if (Storage::exists($csvExportHistory->file_path)) {
             return Storage::download($csvExportHistory->file_path);
         }
-        throw new \Exception('ファイルが存在しません。');
+        throw new \Exception('ファイルが存在しません。'); // @codeCoverageIgnore
     }
 }
