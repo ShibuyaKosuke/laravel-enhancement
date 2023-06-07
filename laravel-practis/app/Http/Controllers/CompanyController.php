@@ -48,6 +48,9 @@ class CompanyController extends Controller
     }
 
     /**
+     * @param Company $company
+     * @return View
+     */
     public function show(Company $company): View
     {
         return view('companies.show', compact('company'));
