@@ -48,7 +48,8 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param Company $company
+     * @return View
      */
     public function show(Company $company): View
     {
