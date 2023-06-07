@@ -48,8 +48,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
     public function show(Company $company): View
     {
         return view('companies.show', compact('company'));
